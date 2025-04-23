@@ -1,0 +1,6 @@
+--- #means beginning of the yml file - can also be used to separate the content of the file logically 
+# tasks file for php
+- name: Install packages
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: present

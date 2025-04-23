@@ -1,0 +1,32 @@
+--- #means beginning of the yml file - can also be used to separate the content of the file logically 
+# tasks file for php
+- name: Install mysql
+  ansible.builtin.apt:
+    name: mysql-server
+    state: present
+    update_cache: yes
+
+- name: Start service mysql 
+  ansible.builtin.service:
+    name: mysql
+    state: started 
+    enabled: yes 
+
+- name: Install PyMySQL
+  ansible.builtin.apt:
+    name: python3-pymysql
+    state: present
+
+- name: Create a new database 
+  community.mysql.mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
+
+- name: Create database user
+  community.mysql.mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_pass }}"
+    priv: '*.*:ALL'
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
